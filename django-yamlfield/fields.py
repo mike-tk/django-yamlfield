@@ -24,7 +24,7 @@ class YAMLFormField(forms.JSONField):
             return value
         try:
             converted = yaml.load(value)
-        except ValueError:
+        except yaml.YAMLError:
             raise forms.ValidationError(
                 self.error_messages['invalid'],
                 code='invalid',
@@ -40,7 +40,7 @@ class YAMLFormField(forms.JSONField):
             return initial
         try:
             return yaml.load(data)
-        except ValueError:
+        except yaml.YAMLError:
             return InvalidYAMLInput(data)
 
     def prepare_value(self, value):
